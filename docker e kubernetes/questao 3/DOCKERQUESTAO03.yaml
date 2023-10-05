@@ -1,0 +1,22 @@
+docker run -d --rm --name postgres \
+-e POSTGRES_USER=postgres \
+-e POSTGRES_PASSWORD=avaliacao \
+-e POSTGRES_DB=avaliacao \
+-e POSTGRES_HOST_AUTH_METHOD=trust \
+-p 5432:5432 \
+postgres:15.2
+
+docker run -d --rm --name backend \
+--link postgres:postgres \
+-e DB_HOST_NAME=postgres \
+-e DB_PORT=5432 \
+-e DB_NAME=avaliacao \
+-e DB_PASSWORD=avaliacao \
+-p 8080:8080 \
+felipesoart/avaliacao:backend
+
+docker run -d --rm --name frontend \
+--link backend:backend \
+-p 3000:80 \
+felipesoart/avaliacao:frontend
+

@@ -1,0 +1,210 @@
+#https://killercoda.com/
+
+#comando
+#   kubectl run hello-minikube
+#   kubectl cluster-info 
+#   kubectl get nodes
+
+#cria p pod
+#   kubectl run pod1 --image nginx
+#   kubectl get pods
+#   kubectl delete pods pod1=> deletar um pod caso deseje
+#   kubectl describe pdo pod2
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podv1
+  labels:
+      app: ajax
+      type: front-end
+
+spec:
+  containers:
+   - name: nginx-container1
+     image: nginx
+
+
+#cria o arquivo pod-definition.yaml e cola o texto acima
+# kubectl create -f pod-definition.yaml
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-redis
+  labels:
+      app: redis
+spec:
+  containers:
+   - name: container-redis
+     image: redis
+
+#cria o arquivo pod-redis.yaml e cola o texto acima
+
+# kubectl create -f pod-redis.yaml
+
+
+# ********************  #
+
+#   kubectl create -f pod-definition.yaml cria o arquivo em memoria o arquivo
+#   kubectl get pods
+#   kubectl delete -f pod-definition.yaml = deleta o arquivo
+
+
+# ********ReplicaSet***********  #
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-replicaset
+  labels:
+      app: myapp
+      type: front-end
+
+spec:
+  template:
+    metadata:
+      name: podv1
+      labels:
+          app: ajax
+          type: front-end
+
+    spec:
+      containers:
+      - name: nginx-container1
+        image: nginx
+  replicas: 6
+  selector:
+    matchLabels:
+       type: front-end
+
+
+#cria o arquivo replicaset-definition.yaml e cola o texto acima
+
+#   kubectl create -f replicaset-definition.yaml
+#   kubectl get replicaset
+
+# delete um dos pods
+#   kubectl get pods = ver qual pods existes
+#   kubectl delete pods myapp-replicaset-zpqhp = escolhe um dos podes para deletar colocando o nome no fim
+
+#   kubectl replace -f replicaset-definition.yaml = recarrega caso altere o arquivo
+
+
+***************Pod*****************
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-votting
+  labels:
+      app: votting-app
+
+spec:
+  containers:
+   - name: vote
+     image: dockersamples/examplevotingapp_vote:before
+
+
+#cria o arquivo pod-votting-app.yaml e cola o texto acima
+# kubectl create -f pod-votting-app.yaml
+
+
+# ********ReplicaSet************  #
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-voting-app
+  labels:
+      app: votting-app
+spec:
+  template:
+    metadata:
+      name: pod-votting
+      labels:
+          app: votting-app
+
+    spec:
+      containers:
+      - name: vote
+        image: dockersamples/examplevotingapp_vote:before
+  replicas: 3
+  selector:
+    matchLabels:
+       app: votting-app
+
+
+#cria o arquivo rs-redis.yaml e cola o texto acima
+
+#   kubectl create -f rs-redis.yaml
+#   kubectl get replicaset
+
+# delete um dos pods
+#   kubectl get pods = ver qual pods existes
+#   kubectl delete pods myapp-replicaset-zpqhp = escolhe um dos podes para deletar colocando o nome no fim
+
+#   kubectl replace -f replicaset-definition.yaml = recarrega caso altere o arquivo
+
+
+
+# ********deployment************  #
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rs-voting-app
+  labels:
+      app: votting-app
+spec:
+  template:
+    metadata:
+      name: pod-votting
+      labels:
+          app: votting-app
+
+    spec:
+      containers:
+      - name: vote
+        image: dockersamples/examplevotingapp_vote:before
+  replicas: 3
+  selector:
+    matchLabels:
+       app: votting-app
+
+
+#cria o arquivo deployment-definition.yaml e cola o texto acima
+
+#   kubectl create -f deployment-definition.yaml
+#   kubectl get deployment
+
+#   kubectl get all
+
+
+# ********serviço************  #
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-voting-app
+  labels:
+      app: votting-app
+spec:
+  type: NodePort
+  ports:
+   - port: 80
+     targetPort: 80
+     protocol: TCP
+     nodePort: 32105
+  selector:
+    app: votting-app
+
+
+#cria o arquivo svc-votting.yaml e cola o texto acima
+
+#   kubectl create -f svc-votting.yaml
+#   kubectl get svc

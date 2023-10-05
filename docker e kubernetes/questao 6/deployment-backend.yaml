@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rs-backend-app
+  labels:
+      app: backend-app
+spec:
+  template:
+    metadata:
+      name: backend
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend-container
+          image: felipesoart/avaliacao:backend
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST_NAME
+              value: "192.168.1.5"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: "avaliacao"
+            - name: DB_PASSWORD
+              value: "avaliacao"
+  replicas: 1
+  selector:
+    matchLabels:
+       app: backend
+
+
+
+#cria o arquivo deployment-backend.yaml e cola o texto acima
+
+# kubectl get pods -o wide   =  pega o id do postgres e passa apra o valor DB_HOST_NAME
+#   kubectl create -f deployment-backend.yaml
+#   kubectl get deployment
+#   kubectl replace -f deployment-backend.yaml = recarrega caso altere o arquivo

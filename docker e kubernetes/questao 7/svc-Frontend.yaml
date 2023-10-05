@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-frontend-app
+  labels:
+      app: frontend-app
+spec:
+  type: NodePort
+  ports:
+   - port: 3000
+     targetPort: 80
+     protocol: TCP
+     nodePort: 32150
+  selector:
+    app: frontend
+    
+
+#cria o arquivo svc-Frontend.yaml e cola o texto acima
+
+#   kubectl create -f svc-Frontend.yaml
+#   kubectl get svc

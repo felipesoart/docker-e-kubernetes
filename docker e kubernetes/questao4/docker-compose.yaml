@@ -1,0 +1,48 @@
+#questao 4 não concruida
+
+version: '3'
+services:
+  postgres:
+    image: postgres:15.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: avaliacao
+      POSTGRES_DB: avaliacao
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    deploy:
+          replicas: 1
+
+  backend:
+    image: felipesoart/avaliacao:backend
+    environment:
+      DB_HOST_NAME: postgres
+      DB_PORT: 5432
+      DB_NAME: avaliacao
+      DB_PASSWORD: avaliacao
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    deploy:
+          replicas: 1
+
+  frontend:
+    image: felipesoart/avaliacao:frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    deploy:
+          replicas: 2
+
+
+
+
+# docker stack deploy stack-name --compose-file docker-compose.yaml
+# docker stack ps -a
+# docker stack rm stack-name => remover os serviços
+
+
+

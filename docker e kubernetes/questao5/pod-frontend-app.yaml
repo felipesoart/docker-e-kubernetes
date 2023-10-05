@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  labels:
+      app: frontend
+
+spec:
+  containers:
+   - name: frontend-container
+     image: felipesoart/avaliacao:frontend
+     ports:
+      - containerPort: 31150
+
+#cria o arquivo pod-frontend-app.yaml e cola o texto acima
+# kubectl create -f pod-frontend-app.yaml
+# kubectl delete pods frontend

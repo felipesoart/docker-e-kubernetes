@@ -1,0 +1,121 @@
+#cria o arquivo docker-compose.yaml no play with docker
+#touch docker-compose.yaml
+
+#edita o arquivo
+
+
+version: "2"
+services:
+  redis:
+    image: redis:alpine
+    ports:
+     - "6379"
+  db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    depends_on:
+      - db
+      - redis
+  vote:
+    image: dockersamples/examplevotingapp_vote:before
+    ports:
+     - "5000:80"
+  result:
+    image: dockersamples/examplevotingapp_result:before
+    depends_on:
+      - db
+    ports:
+      - "5001:80"
+
+
+
+#comandos
+#  docker compose up => subir
+#  docker compose up -d => subir por baixo do terminal
+#  docker ps -a => ver o que subiu
+#  docker compose down => derubar a aplicação
+
+# ********************************** # 
+# cria 3 servidor/maquinas
+
+# docker swarm init --advertise-addr=192.168.0.12
+# copia o docker swarm join --token SWMTKN-1-5z5na6f3vzj0m3t1hokbru79xr65uh4i1ecss71033m8uxdhjb-84m07mb2qn97sb6cxamfxyc7q 192.168.0.12:2377
+
+# no outro servi cola
+# docker swarm join --token SWMTKN-1-5z5na6f3vzj0m3t1hokbru79xr65uh4i1ecss71033m8uxdhjb-84m07mb2qn97sb6cxamfxyc7q 192.168.0.12:2377
+
+# no outro servi cola
+# docker swarm join --token SWMTKN-1-5z5na6f3vzj0m3t1hokbru79xr65uh4i1ecss71033m8uxdhjb-84m07mb2qn97sb6cxamfxyc7q 192.168.0.12:2377
+
+# no master coloca o docker node ls para ver tudo
+# docker service create --name=web --replicas=2 -p 8080:80 nginx
+# docker service ls
+# docker service ps web => fala a quantidade de contane estartados
+# docker service rm web => remove o serviço
+# docker service help
+
+#touch docker-compose.yaml
+
+version: "3"
+services:
+  redis:
+    image: redis:alpine
+    deploy:
+          replicas: 1
+    ports:
+     - "6379"
+  db:
+    image: postgres:9.4
+    deploy:
+          replicas: 1
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    deploy:
+          replicas: 1
+    depends_on:
+      - db
+      - redis
+  vote:
+    image: dockersamples/examplevotingapp_vote:before
+    deploy:
+          replicas: 2
+    ports:
+     - "5000:80"
+  result:
+    image: dockersamples/examplevotingapp_result:before
+    deploy:
+          replicas: 1
+    depends_on:
+      - db
+    ports:
+      - "5001:80"
+
+
+
+
+# docker stack deploy stack-name --compose-file docker-compose.yaml
+# docker stack ps stack-name
+
+
+#https://killercoda.com/
+
+#comando
+#   kubectl run hello-minikube
+#   kubectl cluster-info 
+#   kubectl get nodes
+
+#cria p pod
+#   kubectl run pod1 --image nginx
+#   kubectl get pods
+#   kubectl delete pods pod1=> deletar um pod caso deseje
+#   kubectl describe pdo pod2
+

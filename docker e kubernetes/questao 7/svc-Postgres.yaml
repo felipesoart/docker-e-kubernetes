@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-postgres-app
+  labels:
+      app: postgres-app
+spec:
+  type: ClusterIP
+  ports:
+   - port: 5432
+     targetPort: 80
+     protocol: TCP
+     
+  selector:
+    app: postgres
+
+
+
+#cria o arquivo svc-Postgres.yaml e cola o texto acima
+
+#   kubectl create -f svc-Postgres.yaml
+#   kubectl get svc

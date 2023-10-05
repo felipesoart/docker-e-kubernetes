@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rs-frontend-app
+  labels:
+      app: frontend-app
+spec:
+  template:
+    metadata:
+      name: frontend
+      labels:
+          app: frontend
+
+    spec:
+      containers:
+      - name: frontend-container
+        image: felipesoart/avaliacao:frontend
+        ports:
+          - containerPort: 31150
+  replicas: 3
+  selector:
+    matchLabels:
+       app: frontend
+
+
+
+#cria o arquivo deployment-frontend.yaml e cola o texto acima
+
+#   kubectl create -f deployment-frontend.yaml
+#   kubectl get deployment

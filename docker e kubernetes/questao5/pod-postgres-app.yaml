@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres
+  labels:
+      app: postgres
+
+spec:
+  containers:
+  - name: postgres-container
+    image: postgres:15.2
+    ports:
+    - containerPort: 5432
+    env:
+      - name: POSTGRES_PASSWORD
+        value: "avaliacao"
+      - name: POSTGRES_USER
+        value: "postgres"
+      - name: POSTGRES_DB
+        value: "avaliacao"
+      - name: POSTGRES_HOST_AUTH_METHOD
+        value: "trust"
+
+#cria o arquivo pod-postgres-app.yaml e cola o texto acima
+# kubectl create -f pod-postgres-app.yaml
+# kubectl delete pods postgres
+# kubectl get pods

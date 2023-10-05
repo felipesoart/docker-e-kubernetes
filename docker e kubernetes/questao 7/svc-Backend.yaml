@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-backend-app
+  labels:
+      app: backend-app
+spec:
+  type: NodePort
+  ports:
+   - port: 8080
+     targetPort: 80
+     protocol: TCP
+     nodePort: 31150
+  selector:
+    app: backend
+
+
+#cria o arquivo svc-Backend.yaml e cola o texto acima
+
+#   kubectl create -f svc-Backend.yaml
+#   kubectl get svc

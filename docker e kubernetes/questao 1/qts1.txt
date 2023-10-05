@@ -1,0 +1,19 @@
+queste 1
+git clone https://github.com/evandrocustodio/springboot-backend-avaliacao.git
+altera o arquivo
+docker build -t felipesoart/avaliacao:backend .
+
+docker push felipesoart/avaliacao:backend
+
+resposta 
+https://hub.docker.com/layers/felipesoart/avaliacao/backend/images/sha256-acfd928b364b06ef51194473cf9a6975356a81729274f62b14a34f790c544511?context=repo
+
+
+queste 2
+git clone https://github.com/evandrocustodio/react-frontend-avaliacao.git
+docker build -t felipesoart/avaliacao:frontend .
+
+docker push felipesoart/avaliacao:frontend
+
+resposta 
+https://hub.docker.com/layers/felipesoart/avaliacao/frontend/images/sha256-0161ed7cd16bb9879bc1c56dab64e4bf8d1760fc156a0887982159d743359840?context=repo
